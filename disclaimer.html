@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disclaimer - PakTools</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#f4f6fb;
+--card:#ffffff;
+--text:#222;
+--primary:#4e73df;
+--accent:#1cc88a;
+}
+body.dark{
+--bg:#121212;
+--card:#1e1e1e;
+--text:#f5f5f5;
+--primary:#6c8cff;
+--accent:#20c997;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+body{
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  transition:.3s;
+}
+
+header{
+background:var(--primary);
+color:white;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 2px 8px rgba(0,0,0,0.15);
+z-index:10;
+}
+header h1{font-size:22px}
+.toggle-btn{
+background:white;color:black;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:14px;transition:.3s;
+}
+.toggle-btn:hover{opacity:.8;}
+
+/* Centered main content */
+.main-content{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  width:100%;
+}
+
+.container{
+  max-width:900px;
+  width:100%;
+  background:var(--card);
+  padding:30px;
+  border-radius:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+h2{color:var(--primary);margin-bottom:20px;text-align:center;}
+p{line-height:1.7;margin-bottom:15px;}
+footer{
+padding:20px;text-align:center;background:var(--card);font-size:14px;
+}
+a{color:var(--primary); text-decoration:none;}
+a:hover{text-decoration:underline;}
+button{background:none;border:none;color:var(--primary);cursor:pointer;font-weight:600;}
+</style>
+</head>
+<body>
+<header>
+<h1>PakTools</h1>
+<div class="toggle-btn" onclick="document.body.classList.toggle('dark')">🌙 Dark</div>
+</header>
+
+<div class="main-content">
+  <div class="container">
+    <h2>Disclaimer</h2>
+    <p>All tools on PakTools are provided for educational and informational purposes only. We do not guarantee any financial, medical, or professional outcomes. Users should exercise their own judgment and verify information independently when needed.</p>
+    <p>PakTools is not responsible for any damages or losses resulting from the use of these tools. By using this website, you agree to our terms and policies.</p>
+  </div>
+</div>
+
+<footer>
+© 2026 PakTools.site | 
+<a href="index.html">Home</a> |
+<a href="contact.html">Contact</a> |
+<a href="about.html">About</a> |
+<a href="privacy-policy.html">Privacy Policy</a> | 
+<span>Developed & Designed by 
+  <button onclick="window.open('https://numanmalaya.github.io/NumanMalaya/', '_blank')" class="inline-btn">Numan Malaya</button>
+</span>
+</footer>
+</body>
+</html>

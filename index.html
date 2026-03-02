@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PakTools - Professional Online Tools</title>
+<meta name="description" content="PakTools provides professional daily tools like BMI calculator, CGPA calculator, Currency converter, Loan/EMI calculator, Unit converter, and more. Fast, secure, and easy to use.">
+<meta name="keywords" content="online tools, BMI calculator, CGPA calculator, currency converter, loan calculator, EMI calculator, unit converter">
+
+<link rel="icon" href="data:,">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root{
+--bg:#f4f6fb;
+--card:#ffffff;
+--text:#222;
+--primary:#4e73df;
+--accent:#1cc88a;
+}
+body.dark{
+--bg:#121212;
+--card:#1e1e1e;
+--text:#f5f5f5;
+--primary:#6c8cff;
+--accent:#20c997;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+
+/* BODY FLEX: full height */
+body{
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  transition:.3s;
+}
+
+header{
+background:var(--primary);
+color:white;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+box-shadow:0 2px 8px rgba(0,0,0,0.15);
+z-index:10;
+}
+header h1{font-size:22px}
+.toggle-btn{
+background:white;
+color:black;
+padding:6px 12px;
+border-radius:20px;
+cursor:pointer;
+font-size:14px;
+transition:.3s;
+}
+.toggle-btn:hover{opacity:.8;}
+
+/* MAIN CONTENT WRAPPER: flex center vertically */
+.main-content{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+}
+
+.hero{text-align:center;margin-bottom:30px;}
+
+.search-bar{text-align:center;margin-bottom:30px;}
+.search-bar input{
+width:100%;max-width:400px;padding:12px;
+border-radius:50px;border:1px solid #ddd;
+}
+
+.tools-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+width:100%;
+}
+.tool-card{
+background:var(--card);
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+cursor:pointer;
+transition:.3s;
+text-align:center;
+font-weight:500;
+}
+.tool-card:hover{
+transform:translateY(-5px);
+background:var(--primary);
+color:white;
+}
+footer{
+padding:20px;text-align:center;background:var(--card);font-size:14px;
+}
+footer a{color:var(--primary); text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+a{color:var(--primary); text-decoration:none;}
+button.inline-btn{background:none;border:none;color:var(--primary);cursor:pointer;font-weight:600;}
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+.modal-content{
+background:var(--card);
+padding:30px;
+border-radius:15px;
+width:100%;
+max-width:700px;
+max-height:90vh;
+overflow:auto;
+position:relative;
+}
+.close{
+position:absolute;
+right:15px;
+top:10px;
+cursor:pointer;
+font-size:20px;
+}
+input,textarea,button:not(.footer-btn),select{
+width:100%;
+margin-top:10px;
+padding:10px;
+border-radius:8px;
+border:1px solid #ddd;
+}
+button:not(.footer-btn){
+background:var(--primary);
+color:white;
+border:none;
+cursor:pointer;
+transition:.3s;
+}
+button:not(.footer-btn):hover{opacity:.9}
+.result{margin-top:15px;font-weight:600}
+canvas{margin-top:20px}
+.semester{display:flex;gap:10px;margin-top:5px;}
+.semester input{flex:1;}
+</style>
+</head>
+<body>
+
+<header>
+<h1>PakTools</h1>
+<div class="toggle-btn" onclick="toggleDark()">🌙 Dark</div>
+</header>
+
+<div class="main-content">
+  <div class="hero">
+    <h2>Professional Online Tools</h2>
+    <p>Fast • Secure • Easy to Use</p>
+  </div>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Search tools..." onkeyup="searchTools(this.value)">
+  </div>
+
+  <div class="tools-grid">
+    <div class="tool-card" onclick="openTool('bmi')">BMI Calculator</div>
+    <div class="tool-card" onclick="openTool('cgpa')">CGPA Calculator</div>
+    <div class="tool-card" onclick="openTool('currency')">Currency Converter</div>
+    <div class="tool-card" onclick="openTool('unit')">Unit Converter</div>
+    <div class="tool-card" onclick="openTool('loan')">Loan / EMI Calculator</div>
+  </div>
+</div>
+
+<footer>
+© 2026 PakTools.site | 
+<a href="contact.html">Contact</a> |
+<a href="about.html">About</a> |
+<a href="privacy-policy.html">Privacy Policy</a> | 
+<a href="disclaimer.html">Disclaimer</a> |
+<span>Developed & Designed by 
+  <button onclick="window.open('https://numanmalaya.github.io/NumanMalaya/', '_blank')" class="inline-btn footer-btn">Numan Malaya</button>
+</span>
+</footer>
+
+<div class="modal" id="modal" aria-modal="true" role="dialog">
+<div class="modal-content">
+<span class="close" onclick="closeModal()">✖</span>
+<div id="toolContent"></div>
+</div>
+</div>
+
+<script>
+let bmiChart;
+function toggleDark(){document.body.classList.toggle("dark");}
+
+function openTool(tool){
+document.getElementById("modal").style.display="flex";
+let content="";
+
+if(tool==="bmi"){
+content=`<h2>BMI Calculator</h2>
+<input type="number" id="weight" placeholder="Weight (kg)">
+<input type="number" id="height" placeholder="Height (cm)">
+<button onclick="calculateBMI()">Calculate</button>
+<div class="result" id="bmiResult"></div>
+<canvas id="bmiChart"></canvas>`;
+}
+
+if(tool==="cgpa"){
+content=`<h2>University CGPA Calculator</h2>
+<p>Enter your semester GPAs and credits:</p>
+<div id="semesters">
+<div class="semester">
+<input type="number" class="gpa" placeholder="Semester GPA">
+<input type="number" class="credit" placeholder="Semester Credits">
+</div>
+</div>
+<button onclick="addSemester()">+ Add Semester</button>
+<button onclick="calculateCGPA()">Calculate CGPA</button>
+<div class="result" id="cgpaResult"></div>`;
+}
+
+if(tool==="currency"){
+content=`<h2>Currency Converter</h2>
+<input type="number" id="amount" placeholder="Amount">
+<select id="fromCurrency">
+<option value="USD">USD</option><option value="PKR">PKR</option><option value="EUR">EUR</option><option value="GBP">GBP</option>
+<option value="CAD">CAD</option><option value="AUD">AUD</option><option value="JPY">JPY</option><option value="CNY">CNY</option>
+<option value="AED">AED</option><option value="INR">INR</option><option value="SGD">SGD</option><option value="CHF">CHF</option>
+<option value="MYR">MYR</option><option value="NZD">NZD</option><option value="SAR">SAR</option>
+</select>
+<select id="toCurrency">
+<option value="USD">USD</option><option value="PKR">PKR</option><option value="EUR">EUR</option><option value="GBP">GBP</option>
+<option value="CAD">CAD</option><option value="AUD">AUD</option><option value="JPY">JPY</option><option value="CNY">CNY</option>
+<option value="AED">AED</option><option value="INR">INR</option><option value="SGD">SGD</option><option value="CHF">CHF</option>
+<option value="MYR">MYR</option><option value="NZD">NZD</option><option value="SAR">SAR</option>
+</select>
+<button onclick="convertCurrency()">Convert</button>
+<div class="result" id="currencyResult"></div>`;
+}
+
+if(tool==="unit"){
+content=`<h2>Unit Converter</h2>
+<select id="unitType" onchange="updateUnits()">
+<option value="length">Length</option>
+<option value="weight">Weight</option>
+<option value="temperature">Temperature</option>
+<option value="volume">Volume</option>
+</select>
+<input type="number" id="unitValue" placeholder="Value">
+<select id="unitFrom"></select>
+<select id="unitTo"></select>
+<button onclick="convertUnit()">Convert</button>
+<div class="result" id="unitResult"></div>`;
+}
+
+if(tool==="loan"){
+content=`<h2>Loan / EMI Calculator</h2>
+<input type="number" id="loanAmount" placeholder="Loan Amount">
+<input type="number" id="interestRate" placeholder="Annual Interest %">
+<input type="number" id="loanMonths" placeholder="Tenure (Months)">
+<button onclick="calculateEMI()">Calculate EMI</button>
+<div class="result" id="loanResult"></div>`;
+}
+
+document.getElementById("toolContent").innerHTML=content;
+
+if(tool==="unit"){updateUnits();}
+}
+
+function closeModal(){document.getElementById("modal").style.display="none";}
+
+// BMI
+function calculateBMI(){
+let w=document.getElementById("weight").value;
+let h=document.getElementById("height").value/100;
+if(!w||!h){document.getElementById("bmiResult").innerText="Enter valid numbers";return;}
+let bmi=(w/(h*h)).toFixed(1);
+let category,color;
+if(bmi<18.5){category="Underweight";color="blue";}
+else if(bmi<25){category="Normal";color="green";}
+else if(bmi<30){category="Overweight";color="orange";}
+else{category="Obese";color="red";}
+document.getElementById("bmiResult").innerHTML=`BMI: ${bmi} (<span style="color:${color}">${category}</span>)`;
+if(bmiChart) bmiChart.destroy();
+bmiChart=new Chart(document.getElementById("bmiChart"),{
+type:"bar",
+data:{labels:["Underweight","Normal","Overweight","Obese"],datasets:[{data:[18.5,25,30,40],backgroundColor:["blue","green","orange","red"]}]},
+options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
+});
+}
+
+// CGPA
+function addSemester(){
+let div=document.createElement("div");
+div.className="semester";
+div.innerHTML=`<input type="number" class="gpa" placeholder="Semester GPA">
+<input type="number" class="credit" placeholder="Semester Credits">`;
+document.getElementById("semesters").appendChild(div);
+}
+function calculateCGPA(){
+let gpas=document.querySelectorAll(".gpa");
+let credits=document.querySelectorAll(".credit");
+let totalPoints=0, totalCredits=0;
+for(let i=0;i<gpas.length;i++){
+let g=parseFloat(gpas[i].value);
+let c=parseFloat(credits[i].value);
+if(isNaN(g)||isNaN(c)||g<0||c<=0){document.getElementById("cgpaResult").innerText="Enter valid GPA and credits for all semesters"; return;}
+totalPoints+=g*c;
+totalCredits+=c;
+}
+let cgpa=(totalPoints/totalCredits).toFixed(2);
+document.getElementById("cgpaResult").innerText="Your CGPA is: "+cgpa;
+}
+
+// Currency
+function convertCurrency(){
+let amt=parseFloat(document.getElementById("amount").value);
+let from=document.getElementById("fromCurrency").value;
+let to=document.getElementById("toCurrency").value;
+let rates={"USD":1,"PKR":283,"EUR":0.93,"GBP":0.81,"CAD":1.36,"AUD":1.49,"JPY":141.5,"CNY":6.91,"AED":3.67,"INR":83,"SGD":1.36,"CHF":0.91,"MYR":4.75,"NZD":1.57,"SAR":3.75};
+document.getElementById("currencyResult").innerText="Converted: "+(amt*rates[to]/rates[from]).toFixed(2)+" "+to;
+}
+
+// Unit Converter
+const unitCategories={
+length:["meter","kilometer","centimeter","millimeter","inch","feet","yard","mile"],
+weight:["gram","kilogram","milligram","pound","ounce"],
+temperature:["Celsius","Fahrenheit","Kelvin"],
+volume:["liter","milliliter","gallon","pint","cup"]
+};
+function updateUnits(){
+let type=document.getElementById("unitType").value;
+let from=document.getElementById("unitFrom");
+let to=document.getElementById("unitTo");
+from.innerHTML="";to.innerHTML="";
+unitCategories[type].forEach(u=>{from.innerHTML+=`<option value="${u}">${u}</option>`;to.innerHTML+=`<option value="${u}">${u}</option>`;});
+}
+function convertUnit(){
+let val=parseFloat(document.getElementById("unitValue").value);
+let type=document.getElementById("unitType").value;
+let from=document.getElementById("unitFrom").value;
+let to=document.getElementById("unitTo").value;
+if(isNaN(val)){document.getElementById("unitResult").innerText="Enter valid number";return;}
+let result;
+if(type==="length"){const map={"meter":1,"kilometer":1000,"centimeter":0.01,"millimeter":0.001,"inch":0.0254,"feet":0.3048,"yard":0.9144,"mile":1609.34}; result=val*map[from]/map[to];}
+else if(type==="weight"){const map={"gram":1,"kilogram":1000,"milligram":0.001,"pound":453.592,"ounce":28.3495}; result=val*map[from]/map[to];}
+else if(type==="temperature"){if(from==="Celsius"&&to==="Fahrenheit")result=val*9/5+32;
+else if(from==="Fahrenheit"&&to==="Celsius")result=(val-32)*5/9;
+else if(from==="Celsius"&&to==="Kelvin")result=val+273.15;
+else if(from==="Kelvin"&&to==="Celsius")result=val-273.15;
+else if(from==="Fahrenheit"&&to==="Kelvin")result=(val-32)*5/9+273.15;
+else if(from==="Kelvin"&&to==="Fahrenheit")result=(val-273.15)*9/5+32;
+else result=val;}
+else if(type==="volume"){const map={"liter":1,"milliliter":0.001,"gallon":3.78541,"pint":0.473176,"cup":0.24}; result=val*map[from]/map[to];}
+document.getElementById("unitResult").innerText="Converted: "+result.toFixed(4)+" "+to;
+}
+
+// Loan EMI
+function calculateEMI(){
+let P=parseFloat(document.getElementById("loanAmount").value);
+let r=parseFloat(document.getElementById("interestRate").value)/100/12;
+let n=parseInt(document.getElementById("loanMonths").value);
+let emi=P*r*(Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+document.getElementById("loanResult").innerText="Monthly EMI: "+emi.toFixed(2);
+}
+
+// Search
+function searchTools(q){
+document.querySelectorAll(".tool-card").forEach(card=>{
+card.style.display=card.innerText.toLowerCase().includes(q.toLowerCase())?"block":"none";
+});
+}
+
+</script>
+
+</body>
+</html>
