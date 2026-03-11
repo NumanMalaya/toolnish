@@ -55,18 +55,33 @@ function openTool(tool) {
 `;
     }
 
-if (tool === "qr") {
+if (tool === "qrGenerator") {
     content = `
         <div style="display:flex; flex-direction:column; align-items:center; margin-top:10px;">
         <h2>QR Code Generator</h2>
         <input type="text" id="qrText" placeholder="Enter text or URL">
+        <img id="qrImage" src="" alt="QR Code will appear here" style="max-width:200px; margin:10px 0px; display:none;">
         <button onclick="generateQRCode()">Generate QR Code</button>
-        <img id="qrImage" src="" alt="QR Code will appear here" style="max-width:200px; display:none;">
-        <h2>QR Code Scanner</h2>
-        <div id="qr-reader" style="width:300px; margin-top:10px;"></div>
-        <textarea id="qrResult" placeholder="Scanned QR code will appear here..." rows="3" style="width:100%; margin-top:10px;"></textarea>
-        <button onclick="startQRScanner()">Start Scanner</button>
         </div>`;
+}
+
+if (tool === "qrScanner") {
+    content = `
+    <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+        <h2>QR Code Scanner</h2>
+        <div id="qr-reader" style="width:300px;"></div>
+        <input type="text" id="qrResult" placeholder="Scanned result will appear here..." readonly>
+    </div>
+    <div style="display:flex; gap:5px;">
+        <button onclick="copyQR()">Copy</button>
+        <button onclick="openQR()">Open Link</button>
+        <button onclick="searchQR()">Web Search</button>
+    </div>`;
+
+    document.getElementById("toolContent").innerHTML = content;
+
+    startQRScanner(); // AUTO START CAMERA
+    return;
 }
 
     document.getElementById("toolContent").innerHTML = content;
@@ -173,21 +188,66 @@ function generateQRCode() {
 let html5QrCode;
 
 function startQRScanner() {
+
     const qrResult = document.getElementById("qrResult");
-    if (html5QrCode) {
-        html5QrCode.stop().catch(err => console.warn("Failed to stop previous QR scanner:", err));
-    }
+
     html5QrCode = new Html5Qrcode("qr-reader");
+
     html5QrCode.start(
         { facingMode: "environment" },
         { fps: 10, qrbox: 250 },
+
         (decodedText) => {
+
             qrResult.value = decodedText;
+
+            html5QrCode.stop(); // stop after successful scan
+
         },
+
         (errorMessage) => {
-            console.warn(errorMessage);
+            // ignore scan errors
         }
+
     ).catch(err => console.error("QR Scanner error:", err));
+}
+
+function copyQR() {
+
+    const text = document.getElementById("qrResult").value;
+
+    if (!text) return alert("No QR result!");
+
+    navigator.clipboard.writeText(text);
+
+    alert("Copied to clipboard!");
+}
+
+function openQR() {
+
+    const text = document.getElementById("qrResult").value;
+
+    if (!text) return alert("No QR result!");
+
+    window.open(text, "_blank");
+}
+
+function searchQR() {
+
+    const text = document.getElementById("qrResult").value;
+
+    if (!text) return alert("No QR result!");
+
+    window.open("https://www.google.com/search?q=" + encodeURIComponent(text), "_blank");
+}
+
+function closeModal() {
+
+    document.getElementById("modal").style.display = "none";
+
+    if (html5QrCode) {
+        html5QrCode.stop().catch(()=>{});
+    }
 }
 
 // Search
