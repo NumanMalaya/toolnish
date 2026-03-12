@@ -3,225 +3,261 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GPS Stamp - PakTools</title>
-<meta name="description" content="PakTools provides professional daily tools like BMI calculator, CGPA calculator, Currency converter, Loan/EMI calculator, Unit converter, and more. Fast, secure, and easy to use.">
-<meta name="keywords" content="online tools, BMI calculator, CGPA calculator, currency converter, loan calculator, EMI calculator, unit converter">
+<title>GPS Stamp - ToolNish</title>
 
 <link rel="icon" href="data:,">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="res/index.css">
-<style>
-  /* ---------- Scrollbar Styling ---------- */
 
-/* Chrome, Edge, Safari */
+<!-- Header/Footer CSS -->
+<link rel="stylesheet" href="res/header-footer.css">
+<script src="res/header-footer.js" defer></script>
+
+<style>
+/* ---------------- Main Content Layout ---------------- */
+.main-content {
+  display: grid;
+  grid-template-columns: 420px 1fr; /* form fixed, preview flexible */
+  gap: 50px;
+  padding: 15px;       /* optional padding around */
+  width: 100vw;        /* full viewport width */
+  max-width: none;     /* remove restriction */
+  margin: 0;           /* remove centering */
+  align-items: start;
+}
+
+/* ---------------- Form Container ---------------- */
+.form-container{
+  position:sticky;
+  top:10px;
+  display:flex;
+  flex-direction:column;
+}
+.form-container input,
+.form-container select{
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  font-family:Poppins,sans-serif;
+  font-size:14px;
+  color:var(--text);
+  background:var(--card);
+  transition:.3s;
+}
+.form-container input:focus,
+.form-container select:focus{
+  outline:none;
+  border-color:var(--primary);
+}
+
+button.download-btn{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:8px;
+  border:none;
+  background:var(--primary);
+  color:white;
+  font-family:Poppins,sans-serif;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
+}
+button.download-btn:hover{
+  opacity:.9;
+}
+
+/* ---------------- Preview Container ---------------- */
+.preview-container {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(350px,1fr));
+  gap:25px;
+  max-height:80vh;
+  overflow:auto;
+  padding-right:10px;
+}
+
+/* ---------------- Scrollbar Styling ---------------- */
 .form-container::-webkit-scrollbar,
 .preview-container::-webkit-scrollbar {
-  width: 1px;       /* thin scrollbar */
+  width: 6px;
 }
-
 .form-container::-webkit-scrollbar-thumb,
 .preview-container::-webkit-scrollbar-thumb {
-  background-color: #000;  /* black color */
-  border-radius: 3px;      /* rounded edges */
+  background-color: #000;
+  border-radius:3px;
 }
-
 .form-container::-webkit-scrollbar-track,
 .preview-container::-webkit-scrollbar-track {
-  background: #f0f0f0;     /* light background */
+  background: #f0f0f0;
 }
-
-/* Firefox */
 .form-container,
 .preview-container {
-  scrollbar-width: thin;        /* thin scrollbar */
-  scrollbar-color: #000 #f0f0f0; /* thumb and track */
+  scrollbar-width: thin;
+  scrollbar-color: #000 #f0f0f0;
 }
-  /* ---------------- Images ---------------- */
-  .capture {
-    width: 400px;
-    position: relative;
-    background: white;
-    overflow: hidden;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 5px rgba(28, 27, 27, 0.2);
-    margin-bottom: 20px;
+
+/* ---------------- GPS Images ---------------- */
+.capture {
+  width:400px;
+  position:relative;
+  background:var(--card);
+  overflow:hidden;
+  border:1px solid #ccc;
+  box-shadow:0 2px 5px rgba(28,27,27,0.2);
+  margin-bottom:20px;
+}
+.main-photo {
+  width:100%;
+  height:400px;
+  object-fit:fill;
+  display:block;
+  background:var(--card);
+}
+.gps-footer {
+  position:absolute;
+  bottom:10px;
+  left:10px;
+  width:380px;
+  background-color:rgba(44,44,44,0.85);
+  color:white;
+  display:flex;
+  align-items:flex-start;
+  padding:8px 8px 8px 0px;
+  font-size:11px;
+  box-sizing:border-box;
+}
+.map-thumbnail {
+  width:80px;
+  height:55px;
+  object-fit:contain;
+  margin-right:5px;
+}
+.gps-details {
+  flex-grow:1;
+  line-height:1.3;
+  text-align:left;
+  width:100px;
+}
+.gps-details b {
+  font-family:Georgia, serif;
+  font-size:13px;
+  display:block;
+  margin-bottom:4px;
+}
+.gps-logo {
+  display:flex;
+  align-items:center;
+  font-size:10px;
+  font-family:Arial, sans-serif;
+  margin-left:6px;
+  margin-top:4px;
+}
+.gps-logo-icon {
+  width:20px;
+  height:20px;
+  margin-right:4px;
+}
+
+/* ---------------- Circular Progress Overlay ---------------- */
+.overlay {
+  position:fixed;
+  top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.85);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  display:none;
+}
+.circular-progress-container {
+  width:150px;
+  height:150px;
+  position:relative;
+}
+.circular-progress {
+  width:100%;
+  height:100%;
+  transform:rotate(-90deg);
+}
+.circular-progress circle {
+  fill:none;
+  stroke-width:12;
+  stroke-linecap:round;
+}
+.circular-progress .bg {
+  stroke:#111;
+  opacity:0.1;
+}
+.circular-progress .progress {
+  stroke:#00f0ff;
+  stroke-dasharray:339.292;
+  stroke-dashoffset:339.292;
+  filter:drop-shadow(0 0 10px #00f0ff) drop-shadow(0 0 20px #00f0ff);
+  transition:stroke-dashoffset 0.3s ease;
+}
+.circular-progress-text {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-family:'Poppins',sans-serif;
+  font-weight:600;
+  font-size:22px;
+  color:#00f0ff;
+  text-shadow:0 0 5px #00f0ff,0 0 10px #00f0ff;
+}
+
+/* ---------------- Time Container ---------------- */
+.time-container {
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.time-container input,
+.time-container select {
+  padding:10px;
+  font-size:14px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  font-family:Poppins,sans-serif;
+  color:var(--text);
+  background:var(--card);
+  transition:.3s;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 1000px) {
+  .main-content {
+    grid-template-columns: 1fr;  /* stack vertically */
+    justify-items: center;        /* center children horizontally */
+    padding: 15px 0;             /* optional padding */
   }
 
-  .main-photo {
-    width: 400px;
-    height: 400px;
-    object-fit: fill;
-    display: block;
-    background-color: white;
-  }
-
-  .gps-footer {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    width: 380px;
-    background-color: rgba(44, 44, 44, 0.85);
-    color: white;
-    display: flex;
-    align-items: flex-start;
-    padding: 8px 8px 8px 0px;
-    font-size: 11px;
-    box-sizing: border-box;
-  }
-
-  .map-thumbnail {
-    width: 80px;
-    height: 55px;
-    object-fit: contain;
-    margin-right: 5px;
-  }
-
-  .gps-details {
-    flex-grow: 1;
-    line-height: 1.3;
-    text-align: left;
-    width: 100px;
-  }
-
-  .gps-details b {
-    font-family: Georgia, serif;
-    font-size: 13px;
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .gps-logo {
-    display: flex;
-    align-items: center;
-    font-size: 10px;
-    font-family: Arial, sans-serif;
-    margin-left: 6px;
-    margin-top: 4px;
-  }
-
-  .gps-logo-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 4px;
-  }
-
-  /* ---------------- Circular Progress Overlay ---------------- */
-  .overlay {
-    position: fixed;
-    top:0; left:0; width:100%; height:100%;
-    background: rgba(0,0,0,0.85);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    display: none;
-  }
-
-  .circular-progress-container {
-    width: 150px;
-    height: 150px;
-    position: relative;
-  }
-
-  .circular-progress {
-    width: 100%;
-    height: 100%;
-    transform: rotate(-90deg);
-  }
-
-  .circular-progress circle {
-    fill: none;
-    stroke-width: 12;
-    stroke-linecap: round;
-  }
-
-  .circular-progress .bg {
-    stroke: #111;
-    opacity: 0.1;
-  }
-
-  .circular-progress .progress {
-    stroke: #00f0ff;
-    stroke-dasharray: 339.292;
-    stroke-dashoffset: 339.292;
-    filter: drop-shadow(0 0 10px #00f0ff) drop-shadow(0 0 20px #00f0ff);
-    transition: stroke-dashoffset 0.3s ease;
-  }
-
-  .circular-progress-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 22px;
-    color: #00f0ff;
-    text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff;
-  }
-
-  /* ---------------- Layout ---------------- */
-  .main-content{
-    display: grid;
-    grid-template-columns: 420px 1fr;
-    gap: 30px;
-    padding: 10px;
-    max-width: 1400px;
-    margin: 0 auto;
-    align-items: start;
-  }
-
-  .form-container{
-    position: sticky;
-    top: 10px;
+  .form-container {
+    position: relative;   
+    margin: auto;        /* remove sticky on mobile */
+    top: auto;
+    width: 95%;                   /* form width on mobile */
+    max-width: 420px;             /* don't exceed original width */
   }
 
   .preview-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
-    gap: 25px;
-    max-height: 80vh;
-    overflow-y: auto;
-    padding-right: 10px;
+    width: 95%;                   /* center preview */
+    max-width: 1000px;            /* optional max width */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* flexible columns */
   }
-
-  .time-container {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-top: 8px;
-  }
-
-  .time-container input,
-  .time-container select {
-    padding: 6px 10px;
-    font-size: 14px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-
-  @media (max-width: 1000px){
-    .main-content{
-      grid-template-columns: 1fr;
-      max-width: 95%;
-    }
-  }
+}
 </style>
 </head>
 <body>
 
-<header>
-  <h1>PakTools</h1>
-  <div class="toggle-btn" onclick="toggleDark()">🌙 Dark</div>
-</header>
-
 <div class="main-content">
   <div class="form-container">
     <input type="file" id="imageUpload" accept="image/*" multiple />
-    <br />
     <input type="text" id="city" placeholder="City (e.g. Ārifwāla)" />
     <input type="text" id="address" placeholder="Address" />
-    <br />
     <input type="text" id="latitude" placeholder="Latitude" />
     <input type="text" id="longitude" placeholder="Longitude" />
     <select id="fixedDigits">
@@ -230,15 +266,12 @@
       <option value="3">3 digits fixed</option>
       <option value="4" selected>4 digits fixed</option>
     </select>
-    <br />
-
     <input type="text" id="date" placeholder="DD/MM/YYYY" maxlength="10" />
     <select id="dateMode">
       <option value="fixed" selected>Same Date</option>
       <option value="consecutive">Consecutive Dates</option>
     </select>
     <input type="number" id="dateRange" placeholder="Number of days" min="1" value="1" />
-
     <div class="time-container">
       <input type="text" id="time" placeholder="HH:MM" maxlength="5" />
       <select id="ampm">
@@ -246,7 +279,6 @@
         <option value="PM">PM</option>
       </select>
     </div>
-
     <button class="download-btn" onclick="downloadAll()">Download</button>
   </div>
 
@@ -263,217 +295,169 @@
   </div>
 </div>
 
-<footer>
-© 2026 PakTools.site | 
-<a href="index.html">Home</a> |
-<a href="contact.html">Contact</a> |
-<a href="about.html">About</a> |
-<a href="privacy-policy.html">Privacy Policy</a> | 
-<a href="disclaimer.html">Disclaimer</a> |
-<span>Designed & Developed by 
-  <button onclick="window.open('https://numanmalaya.github.io/NumanMalaya/', '_blank')" class="inline-btn footer-btn">Numan Malaya</button>
-</span>
-</footer>
-
-<script src="res/index.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
 <script>
+// -------- JS Logic remains same as your previous GPS tool --------
 let imagesData = [];
-
-// Base64 versions of your icons to prevent "Tainted Canvas" errors
-const iconMapBase64 = "res/icons/icon2.png"; // If running locally, replace with actual Base64 string
-const iconGPSBase64 = "res/icons/icon3.png"; // If running locally, replace with actual Base64 string
-
+const iconMapBase64 = "res/icons/icon2.png";
+const iconGPSBase64 = "res/icons/icon3.png";
 
 document.getElementById("imageUpload").addEventListener("change", handleFiles);
 
 async function handleFiles(event) {
   const files = event.target.files;
-  if (!files.length) return;
-
-  document.getElementById("previewContainer").innerHTML = '';
-  imagesData = [];
-
-  for (let file of Array.from(files)) {
-    const dataUrl = await new Promise(resolve => {
-      const reader = new FileReader();
-      reader.onload = e => resolve(e.target.result);
+  if(!files.length) return;
+  document.getElementById("previewContainer").innerHTML='';
+  imagesData=[];
+  for(let file of Array.from(files)){
+    const dataUrl = await new Promise(resolve=>{
+      const reader=new FileReader();
+      reader.onload=e=>resolve(e.target.result);
       reader.readAsDataURL(file);
     });
-
-    const container = document.createElement("div");
-    container.className = "capture";
-    
-    container.innerHTML = `
-      <img src="${dataUrl}" class="main-photo" />
+    const container=document.createElement("div");
+    container.className="capture";
+    container.innerHTML=`
+      <img src="${dataUrl}" class="main-photo"/>
       <div class="gps-footer">
-        <img src="${iconMapBase64}" alt="Map" class="map-thumbnail" />
+        <img src="${iconMapBase64}" alt="Map" class="map-thumbnail"/>
         <div class="gps-details">
           <b class="gps-location"></b>
           <span class="gps-pluscode"></span>
-          <span class="gps-address"></span><br />
-          Lat <span class="gps-lat"></span>° Long <span class="gps-lng"></span>°<br />
+          <span class="gps-address"></span><br/>
+          Lat <span class="gps-lat"></span>° Long <span class="gps-lng"></span>°<br/>
           <span class="gps-datetime"></span>
         </div>
         <div class="gps-logo">
-          <img src="${iconGPSBase64}" alt="GPS Icon" class="gps-logo-icon" />
+          <img src="${iconGPSBase64}" alt="GPS Icon" class="gps-logo-icon"/>
           <span>GPS Smart</span>
         </div>
-      </div>
-    `;
+      </div>`;
     document.getElementById("previewContainer").appendChild(container);
     imagesData.push(container);
   }
   updateOverlay();
 }
 
-function randomizeCoord(coord) {
-  let parts = coord.split(".");
-  let intPart = parts[0];
-  let decPart = parts[1] || "000000";
-  let fixedCount = parseInt(document.getElementById("fixedDigits").value) || 4;
-  let fixed = decPart.slice(0, fixedCount);
-  let remaining = Math.max(0, decPart.length - fixedCount);
-  let rand = Math.floor(Math.random() * Math.pow(10, remaining));
-  return intPart + "." + fixed + String(rand).padStart(remaining, "0");
+// -------- Functions randomizeCoord, generatePlusCode, randomizeTime, formatTimeWithAMPM, getTodayDate, distributeDates --------
+function randomizeCoord(coord){
+  let parts=coord.split(".");
+  let intPart=parts[0];
+  let decPart=parts[1]||"000000";
+  let fixedCount=parseInt(document.getElementById("fixedDigits").value)||4;
+  let fixed=decPart.slice(0,fixedCount);
+  let remaining=Math.max(0,decPart.length-fixedCount);
+  let rand=Math.floor(Math.random()*Math.pow(10,remaining));
+  return intPart+"."+fixed+String(rand).padStart(remaining,"0");
 }
-
-function generatePlusCode() {
-  const consonants = "bcdfghjklmnpqrstvwxyz";
-  const randDigit = (len) => String(Math.floor(Math.random() * Math.pow(10, len))).padStart(len, "0");
-  const randConsonant = () => consonants[Math.floor(Math.random() * consonants.length)];
+function generatePlusCode(){
+  const consonants="bcdfghjklmnpqrstvwxyz";
+  const randDigit=(len)=>String(Math.floor(Math.random()*Math.pow(10,len))).padStart(len,"0");
+  const randConsonant=()=>consonants[Math.floor(Math.random()*consonants.length)];
   return `${randDigit(3)}${randConsonant()} + ${randDigit(1)}${randConsonant()}${randConsonant()}`;
 }
-
-function randomizeTime() {
-  let start = 8 * 60, end = 16 * 60;
-  let randMinutes = Math.floor(Math.random() * (end - start + 1)) + start;
-  let hour24 = Math.floor(randMinutes / 60);
-  let minute = randMinutes % 60;
-  let ampm = hour24 >= 12 ? "PM" : "AM";
-  let hour12 = hour24 % 12 || 12;
-  return `${hour12}:${String(minute).padStart(2, "0")} ${ampm}`;
+function randomizeTime(){
+  let start=8*60,end=16*60;
+  let randMinutes=Math.floor(Math.random()*(end-start+1))+start;
+  let hour24=Math.floor(randMinutes/60);
+  let minute=randMinutes%60;
+  let ampm=hour24>=12?"PM":"AM";
+  let hour12=hour24%12||12;
+  return `${hour12}:${String(minute).padStart(2,"0")} ${ampm}`;
 }
-
-function formatTimeWithAMPM(timeVal, ampmVal) {
-  if (!timeVal) return randomizeTime();
-  let parts = timeVal.split(":");
-  let hour = parseInt(parts[0], 10), minute = parseInt(parts[1], 10);
-  if (isNaN(hour) || isNaN(minute)) return randomizeTime();
-  return `${hour}:${String(minute).padStart(2, "0")} ${ampmVal}`;
+function formatTimeWithAMPM(timeVal,ampmVal){
+  if(!timeVal)return randomizeTime();
+  let parts=timeVal.split(":");
+  let hour=parseInt(parts[0],10),minute=parseInt(parts[1],10);
+  if(isNaN(hour)||isNaN(minute))return randomizeTime();
+  return `${hour}:${String(minute).padStart(2,"0")} ${ampmVal}`;
 }
-
-function getTodayDate() {
-  const today = new Date();
+function getTodayDate(){
+  const today=new Date();
   return `${String(today.getDate()).padStart(2,'0')}/${String(today.getMonth()+1).padStart(2,'0')}/${today.getFullYear()}`;
 }
-
-function distributeDates(baseDate, totalImages, numDays) {
-  const parts = baseDate.split("/").map(Number);
-  let dateObj = new Date(parts[2], parts[1] - 1, parts[0]);
-  let dates = [];
-  let imagesPerDay = Math.floor(totalImages / numDays);
-  let extra = totalImages % numDays;
-  for(let i=0; i<numDays; i++){
-    let count = imagesPerDay + (i < extra ? 1 : 0);
-    for(let j=0; j<count; j++){
-      dates.push(`${String(dateObj.getDate()).padStart(2,'0')}/${String(dateObj.getMonth()+1).padStart(2,'0')}/${dateObj.getFullYear()}`);
-    }
+function distributeDates(baseDate,totalImages,numDays){
+  const parts=baseDate.split("/").map(Number);
+  let dateObj=new Date(parts[2],parts[1]-1,parts[0]);
+  let dates=[];
+  let imagesPerDay=Math.floor(totalImages/numDays);
+  let extra=totalImages%numDays;
+  for(let i=0;i<numDays;i++){
+    let count=imagesPerDay+(i<extra?1:0);
+    for(let j=0;j<count;j++)dates.push(`${String(dateObj.getDate()).padStart(2,'0')}/${String(dateObj.getMonth()+1).padStart(2,'0')}/${dateObj.getFullYear()}`);
     dateObj.setDate(dateObj.getDate()+1);
-    if(dateObj.getDay()===0) dateObj.setDate(dateObj.getDate()+1);
+    if(dateObj.getDay()===0)dateObj.setDate(dateObj.getDate()+1);
   }
   return dates;
 }
 
-function updateOverlay() {
-  const city = document.getElementById('city').value.trim() || 'Ārifwāla';
-  const address = document.getElementById('address').value.trim() || '';
-  const baseLat = document.getElementById('latitude').value.trim() || '30.297293';
-  const baseLng = document.getElementById('longitude').value.trim() || '73.066914';
-  const dateInput = document.getElementById('date').value.trim();
-  const baseDate = dateInput || getTodayDate();
-  const dateMode = document.getElementById('dateMode').value;
-  const manualTime = document.getElementById('time').value;
-  const ampm = document.getElementById('ampm').value;
-  const dateRange = parseInt(document.getElementById('dateRange').value) || 1;
+function updateOverlay(){
+  const city=document.getElementById('city').value.trim()||'Ārifwāla';
+  const address=document.getElementById('address').value.trim()||'';
+  const baseLat=document.getElementById('latitude').value.trim()||'30.297293';
+  const baseLng=document.getElementById('longitude').value.trim()||'73.066914';
+  const dateInput=document.getElementById('date').value.trim();
+  const baseDate=dateInput||getTodayDate();
+  const dateMode=document.getElementById('dateMode').value;
+  const manualTime=document.getElementById('time').value;
+  const ampm=document.getElementById('ampm').value;
+  const dateRange=parseInt(document.getElementById('dateRange').value)||1;
 
-  let consecutiveDates = (dateMode === "consecutive") ? distributeDates(baseDate, imagesData.length, dateRange) : [];
+  let consecutiveDates=(dateMode==="consecutive")?distributeDates(baseDate,imagesData.length,dateRange):[];
 
-  imagesData.forEach((container, index) => {
-    let lat = (index === 0) ? baseLat : randomizeCoord(baseLat);
-    let lng = (index === 0) ? baseLng : randomizeCoord(baseLng);
-    let timeStr = (index === 0) ? formatTimeWithAMPM(manualTime, ampm) : randomizeTime();
-    let dateStr = (dateMode === "fixed") ? baseDate : consecutiveDates[index];
+  imagesData.forEach((container,index)=>{
+    let lat=(index===0)?baseLat:randomizeCoord(baseLat);
+    let lng=(index===0)?baseLng:randomizeCoord(baseLng);
+    let timeStr=(index===0)?formatTimeWithAMPM(manualTime,ampm):randomizeTime();
+    let dateStr=(dateMode==="fixed")?baseDate:consecutiveDates[index];
     
-    container.querySelector(".gps-location").innerText = `${city}, Punjab, Pakistan`;
-    container.querySelector(".gps-pluscode").innerText = generatePlusCode();
-    container.querySelector(".gps-address").innerText = `${address}, ${city}, Punjab, Pakistan`;
-    container.querySelector(".gps-lat").innerText = lat;
-    container.querySelector(".gps-lng").innerText = lng;
-    container.querySelector(".gps-datetime").innerText = `${dateStr} ${timeStr} GMT +05:00`;
+    container.querySelector(".gps-location").innerText=`${city}, Punjab, Pakistan`;
+    container.querySelector(".gps-pluscode").innerText=generatePlusCode();
+    container.querySelector(".gps-address").innerText=`${address}, ${city}, Punjab, Pakistan`;
+    container.querySelector(".gps-lat").innerText=lat;
+    container.querySelector(".gps-lng").innerText=lng;
+    container.querySelector(".gps-datetime").innerText=`${dateStr} ${timeStr} GMT +05:00`;
   });
 }
 
-['city','address','latitude','longitude','date','time','ampm','fixedDigits','dateMode','dateRange'].forEach(id => {
-  document.getElementById(id).addEventListener('input', updateOverlay);
-  document.getElementById(id).addEventListener('change', updateOverlay);
+['city','address','latitude','longitude','date','time','ampm','fixedDigits','dateMode','dateRange'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',updateOverlay);
+  document.getElementById(id).addEventListener('change',updateOverlay);
 });
 
 function updateCircularProgress(percent){
-  const circumference = 2 * Math.PI * 54;
-  const offset = circumference - (percent / 100) * circumference;
-  document.querySelector(".circular-progress .progress").style.strokeDashoffset = offset;
-  document.getElementById("circularProgressText").innerText = percent + "%";
-}
-async function downloadAll() {
-    const totalImages = imagesData.length;
-    if (!totalImages) { alert("Upload images first!"); return; }
-
-    const overlay = document.getElementById("overlay");
-    overlay.style.display = "flex";
-    updateCircularProgress(0);
-
-    let zip = new JSZip();
-
-    for (let i = 0; i < totalImages; i++) {
-        updateCircularProgress(Math.round(((i + 1) / totalImages) * 100));
-
-        try {
-            // Wait a tiny bit to avoid browser freeze
-            await new Promise(r => setTimeout(r, 50));
-
-            const canvas = await html2canvas(imagesData[i], {
-                useCORS: true,
-                scale: 1,
-                allowTaint: false
-            });
-
-            const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
-            zip.file(`gps-image-${i + 1}.png`, blob);
-
-            // Release memory
-            canvas.width = canvas.height = 0;
-            canvas.remove();
-        } catch (err) {
-            console.error("Error rendering image", i, err);
-            alert("Error generating images. Try fewer images or lower resolution.");
-            overlay.style.display = "none";
-            return;
-        }
-    }
-
-    const content = await zip.generateAsync({ type: "blob" });
-    saveAs(content, `gps-images.zip`);
-
-    setTimeout(() => { overlay.style.display = "none"; }, 500);
+  const circumference=2*Math.PI*54;
+  const offset=circumference-(percent/100)*circumference;
+  document.querySelector(".circular-progress .progress").style.strokeDashoffset=offset;
+  document.getElementById("circularProgressText").innerText=percent+"%";
 }
 
-
+async function downloadAll(){
+  const totalImages=imagesData.length;
+  if(!totalImages){alert("Upload images first!");return;}
+  const overlay=document.getElementById("overlay");
+  overlay.style.display="flex";
+  updateCircularProgress(0);
+  let zip=new JSZip();
+  for(let i=0;i<totalImages;i++){
+    updateCircularProgress(Math.round(((i+1)/totalImages)*100));
+    await new Promise(r=>setTimeout(r,50));
+    try{
+      const canvas=await html2canvas(imagesData[i],{useCORS:true,scale:1,allowTaint:false});
+      const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/png"));
+      zip.file(`gps-image-${i+1}.png`,blob);
+      canvas.width=canvas.height=0;
+      canvas.remove();
+    }catch(err){console.error(err);alert("Error generating images.");overlay.style.display="none";return;}
+  }
+  const content=await zip.generateAsync({type:"blob"});
+  saveAs(content,"gps-images.zip");
+  setTimeout(()=>{overlay.style.display="none";},500);
+}
 </script>
+
 </body>
-
 </html>
-

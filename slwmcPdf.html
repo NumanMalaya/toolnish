@@ -4,11 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SLWMC PDF - PakTools</title>
+<title>SLWMC PDF - ToolNish</title>
 
 <link rel="icon" href="data:,">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="res/index.css">
+
+<!-- Header/Footer CSS -->
+<link rel="stylesheet" href="res/header-footer.css">
+<script src="res/header-footer.js" defer></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -24,11 +26,61 @@
 .form-container,
 .preview-container { scrollbar-width: thin; scrollbar-color: #000 #f0f0f0; }
 
-body { text-align:center; font-family: 'Poppins', sans-serif; margin:0; padding:0; }
-
 /* ---------- Layout ---------- */
-.main-content{ display:grid; grid-template-columns:420px 1fr; gap:20px; padding:15px 0; max-width:1400px; margin:0 auto; align-items:start; }
-.form-container { position: sticky; top: 10px; max-height: 80vh; overflow-y: auto; padding-right: 10px; }
+.main-content{
+display:grid;
+grid-template-columns:420px 1fr;
+gap:20px;
+padding:15px 0px;
+margin:0;
+align-items:center;
+}
+/* ---------------- Form Container ---------------- */
+.form-container {
+  position: sticky;
+  top: 10px;
+  margin-left: 50px;
+  overflow: auto;
+  max-height: 80vh;   /* limit height */
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.form-container input,
+.form-container select{
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  font-family:Poppins,sans-serif;
+  font-size:14px;
+  color:var(--text);
+  background:var(--card);
+  transition:.3s;
+}
+.form-container input:focus,
+.form-container select:focus{
+  outline:none;
+  border-color:var(--primary);
+}
+
+.form-container button{
+  padding:10px;
+  margin-top:10px;
+  border-radius:8px;
+  border:none;
+  background:var(--primary);
+  color:white;
+  font-family:Poppins,sans-serif;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
+}
+.form-container button:hover{
+  opacity:.9;
+}
 .preview-container{ max-height:80vh; overflow-y:auto; padding-right:10px; }
 
 /* ---------- Category Box ---------- */
@@ -85,17 +137,31 @@ display:flex; flex-direction:column; overflow:hidden;
 #progressText{ margin-top:25px; color:#0ff; font-size:20px; font-weight:bold; text-shadow:0 0 10px #0ff; }
 
 /* ---------- Mobile ---------- */
-@media (max-width:1000px){ .main-content{ grid-template-columns:1fr; max-width:95%; } }
+@media (max-width: 1000px) {
+  .main-content {
+    grid-template-columns: 1fr;  /* stack vertically */
+    justify-items: center;        /* center children horizontally */
+    padding: 15px 0;             /* optional padding */
+  }
+
+  .form-container {
+    position: relative;           /* remove sticky on mobile */
+    top: auto;
+    margin: auto;        /* remove sticky on mobile */
+    width: 95%;                   /* form width on mobile */
+    max-width: 420px;             /* don't exceed original width */
+  }
+
+  .preview-container {
+    width: 95%;                   /* center preview */
+    max-width: 1000px;            /* optional max width */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* flexible columns */
+  }
+}
 </style>
 </head>
 
 <body>
-
-<header>
-<h1>PakTools</h1>
-<div class="toggle-btn" onclick="toggleDark()">🌙 Dark</div>
-</header>
-
 <div class="main-content">
 
 <!-- LEFT SIDE -->
@@ -120,18 +186,6 @@ display:flex; flex-direction:column; overflow:hidden;
 
 </div>
 
-<footer>
-© 2026 PakTools.site |
-<a href="index.html">Home</a> |
-<a href="contact.html">Contact</a> |
-<a href="about.html">About</a> |
-<a href="privacy-policy.html">Privacy Policy</a> |
-<a href="disclaimer.html">Disclaimer</a> |
-<span>Designed & Developed by
-<button onclick="window.open('https://numanmalaya.github.io/NumanMalaya/', '_blank')" class="inline-btn footer-btn">Numan Malaya</button>
-</span>
-</footer>
-
 <div id="progressOverlay">
 <div style="position:relative;width:120px;height:120px;">
 <div class="ring r1"></div>
@@ -144,8 +198,6 @@ display:flex; flex-direction:column; overflow:hidden;
 </div>
 </div>
 
-
-<script src="res/index.js"></script>
 <script>
 let categories = [];
 let categoryId = 0;

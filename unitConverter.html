@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit Converter - PakTools</title>
+
+<!-- Header/Footer -->
+<link rel="stylesheet" href="res/header-footer.css">
+<script src="res/header-footer.js" defer></script>
+
+<!-- Tool-specific CSS -->
+<style>
+:root{
+  --bg:#f4f6fb;
+  --card:#fff;
+  --text:#222;
+  --primary:#4e73df;
+  --accent:#1cc88a;
+}
+body.dark{
+  --bg:#121212;
+  --card:#1e1e1e;
+  --text:#f5f5f5;
+  --primary:#6c8cff;
+  --accent:#20c997;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+body{
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  transition:.3s;
+}
+.main-content{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  width:100%;
+  max-width:600px;
+  margin:auto;
+  text-align:center;
+}
+.main-content input, .main-content button, .main-content select{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  font-size:14px;
+}
+button{
+  background:var(--primary);
+  color:white;
+  border:none;
+  cursor:pointer;
+  transition:.3s;
+}
+button:hover{opacity:.9;}
+.result{
+  margin-top:15px;
+  font-weight:600;
+  color:var(--accent);
+}
+@media(max-width:500px){
+  .main-content input, .main-content select{
+    width:100%;
+  }
+}
+</style>
+
+</head>
+<body>
+
+<div class="main-content">
+  <h2>Unit Converter</h2>
+  <select id="unitType" onchange="updateUnits()">
+    <option value="length">Length</option>
+    <option value="weight">Weight</option>
+    <option value="temperature">Temperature</option>
+    <option value="volume">Volume</option>
+  </select>
+  <input type="number" id="unitValue" placeholder="Value">
+  <select id="unitFrom"></select>
+  <select id="unitTo"></select>
+  <button onclick="convertUnit()">Convert</button>
+  <div class="result" id="unitResult"></div>
+</div>
+
+<script>
+const unitCategories = {
+    length: ["meter", "kilometer", "centimeter", "millimeter", "inch", "feet", "yard", "mile"],
+    weight: ["gram", "kilogram", "milligram", "pound", "ounce"],
+    temperature: ["Celsius", "Fahrenheit", "Kelvin"],
+    volume: ["liter", "milliliter", "gallon", "pint", "cup"]
+};
+
+function updateUnits() {
+    let type = document.getElementById("unitType").value;
+    let from = document.getElementById("unitFrom");
+    let to = document.getElementById("unitTo");
+    from.innerHTML = ""; to.innerHTML = "";
+    unitCategories[type].forEach(u => { 
+        from.innerHTML += `<option value="${u}">${u}</option>`; 
+        to.innerHTML += `<option value="${u}">${u}</option>`; 
+    });
+}
+
+function convertUnit() {
+    let val = parseFloat(document.getElementById("unitValue").value);
+    let type = document.getElementById("unitType").value;
+    let from = document.getElementById("unitFrom").value;
+    let to = document.getElementById("unitTo").value;
+    if (isNaN(val)) { document.getElementById("unitResult").innerText = "Enter valid number"; return; }
+    let result;
+    if (type === "length") { const map = { "meter": 1, "kilometer": 1000, "centimeter": 0.01, "millimeter": 0.001, "inch": 0.0254, "feet": 0.3048, "yard": 0.9144, "mile": 1609.34 }; result = val * map[from] / map[to]; }
+    else if (type === "weight") { const map = { "gram": 1, "kilogram": 1000, "milligram": 0.001, "pound": 453.592, "ounce": 28.3495 }; result = val * map[from] / map[to]; }
+    else if (type === "temperature") { 
+        if (from==="Celsius" && to==="Fahrenheit") result = val*9/5+32;
+        else if (from==="Fahrenheit" && to==="Celsius") result=(val-32)*5/9;
+        else if (from==="Celsius" && to==="Kelvin") result=val+273.15;
+        else if (from==="Kelvin" && to==="Celsius") result=val-273.15;
+        else if (from==="Fahrenheit" && to==="Kelvin") result=(val-32)*5/9+273.15;
+        else if (from==="Kelvin" && to==="Fahrenheit") result=(val-273.15)*9/5+32;
+        else result=val;
+    }
+    else if(type==="volume") { const map={ "liter":1,"milliliter":0.001,"gallon":3.78541,"pint":0.473176,"cup":0.24 }; result = val*map[from]/map[to]; }
+    document.getElementById("unitResult").innerText = "Converted: "+result.toFixed(4)+" "+to;
+}
+
+// Initialize units
+updateUnits();
+</script>
+
+</body>
+</html>

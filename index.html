@@ -3,22 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PakTools - Professional Online Tools</title>
-<meta name="description" content="PakTools provides professional daily tools like BMI calculator, CGPA calculator, Currency converter, Loan/EMI calculator, Unit converter, QR Code Generator & Scanner and more. Fast, secure, and easy to use.">
-<meta name="keywords" content="online tools, BMI calculator, CGPA calculator, currency converter, loan calculator, EMI calculator, unit converter, QR code generator, QR code scanner">
+<title>ToolNish - Professional Online Tools</title>
 
-<link rel="icon" href="data:,">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://unpkg.com/html5-qrcode"></script> <!-- For QR Scanner -->
-<link rel="stylesheet" href="res/index.css">
+<!-- Header/Footer CSS -->
+<link rel="stylesheet" href="res/header-footer.css">
+<script src="res/header-footer.js" defer></script>
+
+<!-- Tool-specific CSS inside <style> -->
+<style>
+:root{
+  --bg:#f4f6fb;
+  --card:#ffffff;
+  --text:#222;
+  --primary:#4e73df;
+  --accent:#1cc88a;
+}
+body.dark{
+  --bg:#121212;
+  --card:#1e1e1e;
+  --text:#f5f5f5;
+  --primary:#6c8cff;
+  --accent:#20c997;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+body{
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  transition:.3s;
+}
+.main-content{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  width:100%;
+  max-width:1200px;
+  margin:auto;
+}
+.hero{text-align:center;margin-bottom:30px;}
+.search-bar{text-align:center;margin-bottom:30px;}
+.search-bar input{
+  width:100%;
+  max-width:400px;
+  padding:12px;
+  border-radius:25px;
+  border:1px solid #ddd;
+  box-shadow:0 5px 15px rgba(0,0,0,.08);
+  transition:.3s;
+  text-align:center;
+  font-weight:500;
+}
+.tools-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  width:100%;
+}
+.tool-card{
+  background:var(--card);
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,.08);
+  cursor:pointer;
+  transition:.3s;
+  text-align:center;
+  font-weight:500;
+  text-decoration:none;
+  color:var(--text);
+}
+.tool-card:hover{
+  transform:translateY(-5px);
+  background:var(--primary);
+  color:white;
+}
+</style>
 </head>
 <body>
-
-<header>
-  <h1 onclick="window.open('index.html')">PakTools</h1>
-  <div class="toggle-btn" onclick="toggleDark()">🌙 Dark</div>
-</header>
 
 <div class="main-content">
   <div class="hero">
@@ -31,38 +96,28 @@
   </div>
 
   <div class="tools-grid">
-    <div class="tool-card" onclick="openTool('bmi')">BMI Calculator</div>
-    <div class="tool-card" onclick="openTool('cgpa')">CGPA Calculator</div>
-    <div class="tool-card" onclick="openTool('unit')">Unit Converter</div>
-    <div class="tool-card" onclick="openTool('loan')">Loan / EMI Calculator</div>
-    <div class="tool-card" onclick="openTool('qrGenerator')">QR Code Generator</div>
-    <div class="tool-card" onclick="openTool('qrScanner')">QR Code Scanner</div>
-    <div class="tool-card" onclick="window.open('gpsStamp.html','_blank')">GPS Stamp</div>  
-    <div class="tool-card" onclick="window.open('bdaPdf.html','_blank')">BDA PDF</div>  
-    <div class="tool-card" onclick="window.open('slwmcPdf.html','_blank')">SLWMC PDF</div>  
-    <div class="tool-card" onclick="window.open('a.html','_blank')">Yomo</div>  
+    <!-- Normal links to open in same tab -->
+    <a class="tool-card" href="bmiCalculator.html">BMI Calculator</a>
+    <a class="tool-card" href="cgpaCalculator.html">CGPA Calculator</a>
+    <a class="tool-card" href="unitConverter.html">Unit Converter</a>
+    <a class="tool-card" href="loanCalculator.html">Loan / EMI Calculator</a>
+    <a class="tool-card" href="qrGenerator.html">QR Code Generator</a>
+    <a class="tool-card" href="qrScanner.html">QR Code Scanner</a>
+    <a class="tool-card" href="gpsStamp.html">GPS Stamp</a>  
+    <a class="tool-card" href="bdaPdf.html">BDA PDF</a>  
+    <a class="tool-card" href="slwmcPdf.html">SLWMC PDF</a>  
+    <a class="tool-card" href="a.html">Yomo</a>  
   </div>
 </div>
 
-<footer>
-© 2026 PakTools.site | 
-<a href="contact.html">Contact</a> |
-<a href="about.html">About</a> |
-<a href="privacy-policy.html">Privacy Policy</a> | 
-<a href="disclaimer.html">Disclaimer</a> |
-<span>Designed & Developed by 
-  <button onclick="window.open('https://numanmalaya.github.io/NumanMalaya/', '_blank')" class="inline-btn footer-btn">Numan Malaya</button>
-</span>
-</footer>
+<script>
+// Search tools dynamically
+function searchTools(q) {
+    document.querySelectorAll(".tool-card").forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(q.toLowerCase()) ? "block" : "none";
+    });
+}
+</script>
 
-<div class="modal" id="modal" aria-modal="true" role="dialog">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">✖</span>
-    <div id="toolContent"></div>
-  </div>
-  
-</div>
-<script src="https://unpkg.com/html5-qrcode"></script>
-<script src="res/index.js"></script>
 </body>
 </html>

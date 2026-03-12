@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code Generator - PakTools</title>
+
+<!-- Header/Footer -->
+<link rel="stylesheet" href="res/header-footer.css">
+<script src="res/header-footer.js" defer></script>
+
+<!-- Tool-specific CSS -->
+<style>
+:root{
+  --bg:#f4f6fb;
+  --card:#fff;
+  --text:#222;
+  --primary:#4e73df;
+  --accent:#1cc88a;
+}
+body.dark{
+  --bg:#121212;
+  --card:#1e1e1e;
+  --text:#f5f5f5;
+  --primary:#6c8cff;
+  --accent:#20c997;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+body{
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  transition:.3s;
+}
+.main-content{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding:20px;
+  width:100%;
+  max-width:600px;
+  margin:50px auto;
+  gap:10px;
+  text-align:center;
+}
+.main-content input{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  margin-top:20px;
+  font-size:14px;
+}
+.main-content button{
+  padding:10px 15px;
+  border:none;
+  border-radius:8px;
+  background:var(--primary);
+  color:white;
+  cursor:pointer;
+  transition:.3s;
+  font-size:14px;
+  margin-top:20px;
+}
+.main-content button:hover{opacity:.9;}
+#qrImage{
+  max-width:200px;
+  margin:20px 0;
+}
+@media(max-width:500px){
+  .main-content input, .main-content button{
+    width:100%;
+  }
+}
+</style>
+
+</head>
+<body>
+
+<div class="main-content">
+  <h2>QR Code Generator</h2>
+  <input type="text" id="qrText" placeholder="Enter text or URL">
+  <img id="qrImage" src="" alt="QR Code will appear here" style="display:none;">
+  <button onclick="generateQRCode()">Generate QR Code</button>
+</div>
+
+<script>
+function generateQRCode() {
+    const text = document.getElementById("qrText").value;
+    if (!text) return alert("Please enter text or URL!");
+    const qrImage = document.getElementById("qrImage");
+    qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}`;
+    qrImage.style.display="block";
+}
+</script>
+
+</body>
+</html>
