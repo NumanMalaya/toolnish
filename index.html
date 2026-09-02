@@ -1,0 +1,2078 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="icon" href="res/icon.png" type="image/png">
+
+<!-- SEO Meta Tags -->
+
+<title>BA PDF Tool Online - ToolNish</title>
+
+<meta name="description" content="Create Before and After PDF slides easily with ToolNish BA PDF Tool. Upload images, categorize, and generate PDF instantly. Free online tool.">
+
+<meta name="keywords" content="BA PDF, Before After PDF, PDF Generator, ToolNish PDF, Online PDF Tool">
+
+<link rel="canonical" href="https://toolnish.com/baPdf">
+
+<!-- Open Graph / Social Sharing -->
+
+<meta property="og:title" content="BA PDF Tool Online - ToolNish">
+
+<meta property="og:description" content="Easily create Before and After PDF slides with ToolNish BA PDF Tool. Free and online.">
+
+<meta property="og:url" content="https://toolnish.com/baPdf">
+
+<meta property="og:type" content="website">
+
+<meta property="og:image" content="https://numanmalaya.online/res/logo.png">
+
+<!-- Twitter Card -->
+
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="twitter:title" content="BA PDF Tool Online - ToolNish">
+
+<meta name="twitter:description" content="Create Before, After PDF slides easily online with ToolNish BA PDF Tool. Free and no installation required.">
+
+<meta name="twitter:image" content="https://numanmalaya.online/res/logo.png">
+
+<!-- Structured Data -->
+
+<script type="application/ld+json">
+
+{
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "BA PDF Tool",
+    "url": "https://toolnish.com/baPdf",
+    "applicationCategory": "Document creation",
+    "description": "Create Before and After PDF slides with images using ToolNish BA PDF Tool. Free online tool.",
+    "operatingSystem": "Web",
+    "screenshot": "https://numanmalaya.online/res/logo.png"
+}
+
+</script>
+
+<link rel="icon" href="data:,">
+
+<!-- Header/Footer CSS -->
+
+<link rel="stylesheet" href="res/header-footer.css">
+
+<script src="res/header-footer.js" defer></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+
+/* ---------- Scrollbar Styling ---------- */
+
+.form-container::-webkit-scrollbar,
+.preview-container::-webkit-scrollbar {
+
+    width: 1px;
+
+}
+
+.form-container::-webkit-scrollbar-thumb,
+.preview-container::-webkit-scrollbar-thumb {
+
+    background-color: #000;
+
+    border-radius: 3px;
+
+}
+
+.form-container::-webkit-scrollbar-track,
+.preview-container::-webkit-scrollbar-track {
+
+    background: #f0f0f0;
+
+}
+
+.form-container,
+.preview-container {
+
+    scrollbar-width: thin;
+
+    scrollbar-color: #000 #f0f0f0;
+
+}
+
+body {
+
+    text-align: center;
+
+}
+
+/* ---------- Layout ---------- */
+
+.main-content {
+
+    display: grid;
+
+    grid-template-columns: 420px 1fr;
+
+    gap: 20px;
+
+    padding: 15px 0px;
+
+    margin: 0;
+
+    align-items: start;
+
+}
+
+.form-container input {
+
+    width: 100%;
+
+    padding: 10px;
+
+    margin-top: 5px;
+
+    border-radius: 8px;
+
+    border: 1px solid #ddd;
+
+    font-family: Poppins, sans-serif;
+
+    font-size: 14px;
+
+    color: var(--text);
+
+    background: var(--card);
+
+    transition: .3s;
+
+}
+
+.form-container input:focus {
+
+    outline: none;
+
+    border-color: var(--primary);
+
+}
+
+.form-container button {
+
+    padding: 10px;
+
+    margin-top: 10px;
+
+    border-radius: 8px;
+
+    border: none;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-family: Poppins, sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+.form-container button:hover {
+
+    opacity: .9;
+
+}
+
+.form-container {
+
+    margin-left: 50px;
+
+    position: sticky;
+
+    top: 10px;
+
+    max-height: 80vh;
+
+    overflow-y: auto;
+
+    padding-right: 10px;
+
+}
+
+.preview-container {
+
+    max-height: 80vh;
+
+    overflow-y: auto;
+
+    padding-right: 10px;
+
+}
+
+/* ---------- Category Box ---------- */
+
+.category-box {
+
+    width: 100%;
+
+    margin: 12px 0;
+
+    border-radius: 8px;
+
+    padding: 15px;
+
+    position: relative;
+
+    border: 2px solid #ccc;
+
+}
+
+.category-box input {
+
+    padding: 8px;
+
+    width: 70%;
+
+}
+
+.drop-zone {
+
+    margin-top: 12px;
+
+    padding: 20px;
+
+    border: 2px dashed #aaa;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    position: relative;
+
+}
+
+.drop-zone.dragover {
+
+    border-color: #004080;
+
+}
+
+.drop-zone input {
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: 0;
+
+}
+
+.file-count {
+
+    margin-top: 6px;
+
+    font-size: 13px;
+
+    color: #007bff;
+
+    font-weight: bold;
+
+}
+
+.delete-category {
+
+    position: absolute;
+
+    top: 8px;
+
+    right: 8px;
+
+    padding: 5px 10px;
+
+    background: none;
+
+    border: none;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    border-radius: 8px;
+
+}
+
+/* ---------- Slide ---------- */
+
+.slide {
+
+    width: 875px;
+
+    height: 575px;
+
+    background: white;
+
+    color: #000;
+
+    margin: 30px auto;
+
+    position: relative;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,.2);
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+}
+
+/* ---------- Images ---------- */
+
+.slide-images {
+
+    margin-top: 10px;
+
+    display: grid;
+
+    grid-template-columns: repeat(2,1fr);
+
+    gap: 15px;
+
+    height: 400px;
+
+}
+
+.column img {
+
+    width: 90%;
+
+    height: 400px;
+
+    object-fit: fill;
+
+}
+
+.column-empty {
+
+    width: 90%;
+
+    height: 400px;
+
+}
+
+/* ---------- Logos ---------- */
+
+.logo-left,
+.logo-right {
+
+    position: absolute;
+
+    top: 7px;
+
+    width: 80px;
+
+}
+
+.logo-right {
+
+    width: 100px;
+
+}
+
+.logo-center {
+
+    position: absolute;
+
+    top: 10px;
+
+    width: 120px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+}
+
+.logo-left {
+
+    left: 25px;
+
+}
+
+.logo-right {
+
+    right: 25px;
+
+}
+
+/* ---------- Headings ---------- */
+
+.slide-headings {
+
+    margin-top: 70px;
+
+    display: grid;
+
+    grid-template-columns: repeat(2,1fr);
+
+    font-size: 30px;
+
+    font-weight: 800;
+
+}
+
+/* ---------- Loader ---------- */
+
+#progressOverlay {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.85);
+
+    z-index: 9999;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+}
+
+.ring {
+
+    position: absolute;
+
+    inset: 0;
+
+    border: 8px solid transparent;
+
+    border-radius: 50%;
+
+    animation: spin linear infinite;
+
+}
+
+.r1 {
+
+    border-top-color: #00f0ff;
+
+    animation-duration: 1.2s;
+
+}
+
+.r2 {
+
+    border-top-color: #ff00ff;
+
+    animation-duration: 1.8s;
+
+}
+
+.r3 {
+
+    border-top-color: #00ff88;
+
+    animation-duration: 2.4s;
+
+}
+
+@keyframes spin {
+
+    from {
+
+        transform: rotate(0deg);
+
+    }
+
+    to {
+
+        transform: rotate(360deg);
+
+    }
+
+}
+
+#progressText {
+
+    margin-top: 25px;
+
+    color: #0ff;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    text-shadow: 0 0 10px #0ff;
+
+}
+
+/* ---------- SEO ---------- */
+
+.seo-section {
+
+    margin-right: 50px;
+
+}
+
+.seo-section h1 {
+
+    font-size: 2.2rem;
+
+    color: var(--primary);
+
+    margin-bottom: 15px;
+
+    text-align: center;
+
+}
+
+.seo-section h2 {
+
+    font-size: 1.5rem;
+
+    color: var(--accent);
+
+    margin-top: 30px;
+
+    margin-bottom: 10px;
+
+    border-left: 4px solid var(--primary);
+
+    padding-left: 10px;
+
+}
+
+.seo-section p {
+
+    font-size: 1rem;
+
+    line-height: 1.6;
+
+    margin-bottom: 15px;
+
+    text-align: justify;
+
+    background: var(--card);
+
+    padding: 12px 15px;
+
+    border-radius: 10px;
+
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+
+    transition: transform 0.2s, box-shadow 0.3s;
+
+}
+
+.seo-section p:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+
+}
+
+.seo-section ul {
+
+    list-style: inside disc;
+
+    margin-left: 0;
+
+    padding-left: 15px;
+
+    margin-bottom: 20px;
+
+    background: var(--card);
+
+    border-radius: 10px;
+
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+
+}
+
+.seo-section ul li {
+
+    padding: 5px 0;
+
+    font-weight: 500;
+
+}
+
+.seo-section a {
+
+    color: var(--primary);
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    transition: color 0.3s;
+
+}
+
+.seo-section a:hover {
+
+    color: var(--accent);
+
+    text-decoration: underline;
+
+}
+
+/* ---------- Ad Placeholder ---------- */
+
+.ad-slot {
+
+    width: 100%;
+
+    height: 90px;
+
+    background: #f0f0f0;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    margin: 20px 0;
+
+    color: #555;
+
+    border: 1px dashed #ccc;
+
+}
+
+/* ---------- FAQ ---------- */
+
+.faq-container {
+
+    width: 100%;
+
+    margin-top: 20px;
+
+}
+
+.faq-item {
+
+    width: 100%;
+
+    margin-bottom: 10px;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    background: var(--card);
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+
+}
+
+.faq-question {
+
+    width: 100%;
+
+    text-align: left;
+
+    padding: 12px 15px;
+
+    border: none;
+
+    outline: none;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background 0.3s;
+
+    border-radius: 8px;
+
+}
+
+.faq-question:hover {
+
+    background: var(--accent);
+
+}
+
+.faq-answer {
+
+    padding: 0 15px;
+
+    max-height: 0;
+
+    overflow: hidden;
+
+    transition: max-height 0.3s ease, padding 0.3s ease;
+
+    background: var(--card);
+
+}
+
+.faq-answer.show {
+
+    padding: 12px 15px;
+
+    max-height: 400px;
+
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 1000px) {
+
+    .main-content {
+
+        grid-template-columns: 1fr;
+
+        justify-items: center;
+
+        padding: 15px 0;
+
+    }
+
+    .form-container {
+
+        position: relative;
+
+        top: auto;
+
+        margin: auto;
+
+        width: 95%;
+
+        max-width: 420px;
+
+    }
+
+    .preview-container {
+
+        width: 95%;
+
+        max-width: 1000px;
+
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+    }
+
+    .seo-section {
+
+        margin-right: 0px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="main-content">
+
+<!-- LEFT SIDE -->
+
+<div class="form-container">
+
+<h1>BA PDF</h1>
+
+<button onclick="addCategory()">+ Add Category</button>
+
+<button id="pptBtn">Download PPT</button>
+
+<div id="categoriesContainer"></div>
+
+</div>
+
+<!-- RIGHT SIDE -->
+
+<div class="preview-container" id="slidesContainer"></div>
+
+</div>
+
+<div id="progressOverlay">
+
+<div style="position:relative;width:120px;height:120px;">
+
+<div class="ring r1"></div>
+
+<div class="ring r2"></div>
+
+<div class="ring r3"></div>
+
+</div>
+
+<div id="progressText">
+
+<div id="percent">0%</div>
+
+<div id="count">0 / 0 slides</div>
+
+</div>
+
+</div>
+
+<div class="seo-section" style="padding: 20px; max-width:900px; margin:auto; text-align:start;">
+
+<h1>BA PDF Tool Online</h1>
+
+<p>
+
+ToolNish BA PDF Tool allows you to create professional Before and After (BA) PDF presentations easily using your images. This tool is designed for students, professionals, engineers, and businesses who need structured visual reports quickly and efficiently.
+
+</p>
+
+<p>
+
+Instead of manually designing slides, arranging images, and exporting PDFs, this tool automates the entire process. Simply upload your images, organize them into categories, and generate clean, presentation-ready PDF files instantly.
+
+</p>
+
+<p>
+
+The BA (Before, After) format is widely used for project reporting, progress tracking, and documentation. It helps clearly show transformation, improvements, and work progress in a structured and professional way.
+
+</p>
+
+<div class="ad-slot">Ad Slot</div>
+
+<h2>How to Use BA PDF Tool</h2>
+
+<p>
+
+Start by clicking the "Add Category" button and enter a name for your project or task. Upload images related to that category. The tool will automatically generate slides with Before and After sections.
+
+</p>
+
+<p>
+
+You can add multiple categories for different tasks or projects. Once your slides are ready, preview them on the screen and click the "Download PDF" button to export your complete document.
+
+</p>
+
+<h2>Why Use ToolNish BA PDF Tool</h2>
+
+<p>
+
+This tool is designed to save time and improve productivity. Whether you are working on a field project, academic assignment, or business report, this tool helps you create structured visual presentations without any design skills.
+
+</p>
+
+<p>
+
+It is especially useful for engineers, contractors, surveyors, and students who need to present work progress clearly and professionally.
+
+</p>
+
+<h2>Benefits of BA PDF Tool</h2>
+
+<ul>
+
+<li>Create professional Before, After reports instantly</li>
+
+<li>Organize images into categories for better structure</li>
+
+<li>Automatic slide generation with clean layout</li>
+
+<li>No software installation required</li>
+
+<li>Free and works on all devices</li>
+
+<li>Improves reporting clarity and presentation quality</li>
+
+</ul>
+
+<div class="ad-slot">Ad Slot</div>
+
+<h2>Where BA Reports Are Used</h2>
+
+<p>
+
+BA (Before, After) reports are commonly used in construction, project management, inspections, and academic work. They help document progress and show visual proof of completed work.
+
+</p>
+
+<p>
+
+Companies use these reports for client presentations and internal tracking. Students use them for assignments and project submissions. Field workers use them to provide evidence of work completion.
+
+</p>
+
+<p>
+
+With ToolNish BA PDF Tool, you can create these reports in seconds without using complex software like PowerPoint or Photoshop.
+
+</p>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<div class="faq-container">
+
+<div class="faq-item">
+
+<button class="faq-question">Q: Is BA PDF Tool free?</button>
+
+<div class="faq-answer">Yes, ToolNish BA PDF Tool is completely free and requires no signup.</div>
+
+</div>
+
+<div class="faq-item">
+
+<button class="faq-question">Q: Can I add multiple categories?</button>
+
+<div class="faq-answer">Yes, you can create multiple categories and generate slides for each one.</div>
+
+</div>
+
+<div class="faq-item">
+
+<button class="faq-question">Q: What does BA mean?</button>
+
+<div class="faq-answer">BA stands for Before and After. It is a format used to show progress and transformation.</div>
+
+</div>
+
+<div class="faq-item">
+
+<button class="faq-question">Q: Does this tool store my images?</button>
+
+<div class="faq-answer">No, all images are processed locally in your browser and are not uploaded or stored.</div>
+
+</div>
+
+<div class="faq-item">
+
+<button class="faq-question">Q: Can I use this on mobile?</button>
+
+<div class="faq-answer">Yes, the tool works on mobile devices, tablets, and desktops.</div>
+
+</div>
+
+<div class="faq-item">
+
+<button class="faq-question">Q: What type of images can I upload?</button>
+
+<div class="faq-answer">You can upload JPG, PNG, and most common image formats.</div>
+
+</div>
+
+<div class="faq-item">
+
+<button class="faq-question">Q: Is the PDF high quality?</button>
+
+<div class="faq-answer">Yes, the generated PDF is optimized for clear and professional presentation.</div>
+
+</div>
+
+</div>
+
+<h2>Related Tools</h2>
+
+<p>
+
+Explore more useful tools on ToolNish like our
+
+<a href="/gpsStamp">GPS Stamp Tool</a>,
+
+<a href="/qrGenerator">QR Code Generator</a>,
+
+<a href="/qrScanner">QR Code Scanner</a>,
+
+<a href="/loanCalculator">Loan Calculator</a>, and
+
+<a href="/cgpaCalculator">CGPA Calculator</a>.
+
+</p>
+
+<div class="ad-slot">Ad Slot</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+
+<script>
+
+/* ---------- FAQ ---------- */
+
+document.querySelectorAll(".faq-question").forEach(btn => {
+
+    btn.addEventListener("click", () => {
+
+        btn.nextElementSibling.classList.toggle("show");
+
+    });
+
+});
+
+
+/* ---------- Categories ---------- */
+
+let categories = [];
+
+let categoryId = 0;
+
+
+function addCategory() {
+
+    const id = categoryId++;
+
+    categories.push({
+
+        id,
+
+        name: "Category " + (categories.length + 1),
+
+        images: []
+
+    });
+
+
+    const box = document.createElement("div");
+
+    box.className = "category-box";
+
+    box.id = "cat-" + id;
+
+
+    box.innerHTML = `
+
+        <button class="delete-category"
+            onclick="deleteCategory(${id})">🗑</button>
+
+        <h3>Category</h3>
+
+        <input
+            value="Category ${categories.length}"
+            oninput="updateName(${id}, this.value)">
+
+        <div class="drop-zone"
+
+            ondragover="handleDragOver(event)"
+
+            ondragleave="handleDragLeave(event)"
+
+            ondrop="handleDrop(event, ${id})">
+
+            Upload Images (Before Only)
+
+            <input
+                type="file"
+                multiple
+                accept="image/*"
+                onchange="updateImages(${id}, this.files)">
+
+        </div>
+
+        <div
+            class="file-count"
+            id="count-${id}">
+            No files
+        </div>
+
+    `;
+
+
+    document
+        .getElementById("categoriesContainer")
+        .prepend(box);
+
+}
+
+
+function deleteCategory(id) {
+
+    categories = categories.filter(c => c.id !== id);
+
+    document.getElementById("cat-" + id)?.remove();
+
+    renderSlides();
+
+}
+
+
+function updateName(id, val) {
+
+    const c = categories.find(x => x.id === id);
+
+    if (c) c.name = val;
+
+    renderSlides();
+
+}
+
+
+function updateImages(id, files) {
+
+    const c = categories.find(x => x.id === id);
+
+    c.images = Array.from(files).map(
+        f => URL.createObjectURL(f)
+    );
+
+    document.getElementById("count-" + id).innerText =
+        c.images.length + " image(s)";
+
+    renderSlides();
+
+}
+
+
+function handleDragOver(e) {
+
+    e.preventDefault();
+
+    e.currentTarget.classList.add("dragover");
+
+}
+
+
+function handleDragLeave(e) {
+
+    e.preventDefault();
+
+    e.currentTarget.classList.remove("dragover");
+
+}
+
+
+function handleDrop(e, id) {
+
+    e.preventDefault();
+
+    e.currentTarget.classList.remove("dragover");
+
+    const files = e.dataTransfer.files;
+
+    if (files.length) {
+
+        updateImages(id, files);
+
+    }
+
+}
+
+
+/* ---------- Render Slides ---------- */
+
+function renderSlides() {
+
+    const container =
+        document.getElementById("slidesContainer");
+
+    container.innerHTML = "";
+
+
+    categories.forEach(cat => {
+
+        if (!cat.images.length) return;
+
+
+        /* Category title */
+
+        const title =
+            document.createElement("div");
+
+        title.className = "slide";
+
+
+        title.innerHTML = `
+
+            <img src="res/logos/left.png"
+                class="logo-left">
+
+            <img src="res/logos/center.png"
+                class="logo-center">
+
+            <img src="res/logos/gop.png"
+                class="logo-right">
+
+            <div style="
+                height:100%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:60px;
+                font-weight:900;
+            ">
+
+                ${cat.name}
+
+            </div>
+
+        `;
+
+
+        container.appendChild(title);
+
+
+        /* BA slides */
+
+        cat.images.forEach(img => {
+
+            const slide =
+                document.createElement("div");
+
+            slide.className = "slide";
+
+
+            slide.innerHTML = `
+
+                <img src="res/logos/left.png"
+                    class="logo-left">
+
+                <img src="res/logos/center.png"
+                    class="logo-center">
+
+                <img src="res/logos/gop.png"
+                    class="logo-right">
+
+                <div class="slide-headings">
+
+                    <div>Before</div>
+
+                    <div>After</div>
+
+                </div>
+
+                <div class="slide-images">
+
+                    <div class="column">
+
+                        <img src="${img}">
+
+                    </div>
+
+                    <div class="column-empty"></div>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(slide);
+
+        });
+
+    });
+
+}
+
+
+/* =========================================================
+   PPT EXPORT
+   ========================================================= */
+
+async function downloadPPTX() {
+
+    const btn =
+        document.getElementById("pptBtn");
+
+    const original =
+        btn.textContent;
+
+
+    btn.disabled = true;
+
+    btn.textContent =
+        "Generating PPT...";
+
+
+    try {
+
+
+        /* =================================================
+           CREATE PPT
+           ================================================= */
+
+        const pptx =
+            new PptxGenJS();
+
+
+        /* =================================================
+           CUSTOM PPT SIZE
+           875 × 575
+           ================================================= */
+
+        pptx.defineLayout({
+
+            name: "BA_CUSTOM",
+
+            width: 8.75,
+
+            height: 5.75
+
+        });
+
+
+        pptx.layout =
+            "BA_CUSTOM";
+
+
+        pptx.author =
+            "ToolNish";
+
+        pptx.subject =
+            "Before After";
+
+        pptx.title =
+            "Before-After Report";
+
+        pptx.company =
+            "ToolNish";
+
+        pptx.lang =
+            "en-US";
+
+
+        /* =================================================
+           SLIDE DIMENSIONS
+           ================================================= */
+
+        const BW = 875;
+
+        const BH = 575;
+
+
+        const SW = 8.75;
+
+        const SH = 5.75;
+
+
+        const scaleX =
+            SW / BW;
+
+        const scaleY =
+            SH / BH;
+
+
+        const X =
+            px => px * scaleX;
+
+
+        const Y =
+            px => px * scaleY;
+
+
+        /* =================================================
+           COMPRESS UPLOADED IMAGE
+           ================================================= */
+
+        async function compressImage(
+            url,
+            maxWidth = 1600,
+            quality = 0.80
+        ) {
+
+            const img =
+                new Image();
+
+
+            img.src =
+                url;
+
+
+            await new Promise(
+                (resolve, reject) => {
+
+                    img.onload =
+                        resolve;
+
+                    img.onerror =
+                        reject;
+
+                }
+            );
+
+
+            let width =
+                img.naturalWidth;
+
+
+            let height =
+                img.naturalHeight;
+
+
+            /* Resize large images */
+
+            if (width > maxWidth) {
+
+                const ratio =
+                    maxWidth / width;
+
+
+                width =
+                    maxWidth;
+
+
+                height =
+                    Math.round(
+                        height * ratio
+                    );
+
+            }
+
+
+            const canvas =
+                document.createElement(
+                    "canvas"
+                );
+
+
+            canvas.width =
+                width;
+
+
+            canvas.height =
+                height;
+
+
+            const ctx =
+                canvas.getContext(
+                    "2d"
+                );
+
+
+            ctx.drawImage(
+
+                img,
+
+                0,
+
+                0,
+
+                width,
+
+                height
+
+            );
+
+
+            /* Convert to JPEG */
+
+            return canvas.toDataURL(
+
+                "image/jpeg",
+
+                quality
+
+            );
+
+        }
+
+
+        /* =================================================
+           GET LOGO DATA
+           ================================================= */
+
+        async function getDataURL(url) {
+
+            const response =
+                await fetch(url);
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load image: " +
+                    url
+                );
+
+            }
+
+
+            const blob =
+                await response.blob();
+
+
+            return new Promise(
+                (resolve, reject) => {
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onloadend =
+                        () =>
+                            resolve(
+                                reader.result
+                            );
+
+
+                    reader.onerror =
+                        reject;
+
+
+                    reader.readAsDataURL(
+                        blob
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =================================================
+           LOGOS
+           ================================================= */
+
+        const leftLogo =
+            await getDataURL(
+                "res/logos/left.png"
+            );
+
+
+        const centerLogo =
+            await getDataURL(
+                "res/logos/center.png"
+            );
+
+
+        const rightLogo =
+            await getDataURL(
+                "res/logos/gop.png"
+            );
+
+
+        /* =================================================
+           CATEGORIES
+           ================================================= */
+
+        for (const cat of categories) {
+
+
+            if (!cat.images.length)
+                continue;
+
+
+            /* =================================================
+               CATEGORY TITLE SLIDE
+               ================================================= */
+
+            let slide =
+                pptx.addSlide();
+
+
+            slide.background = {
+
+                color: "FFFFFF"
+
+            };
+
+
+            /* LEFT LOGO */
+
+            slide.addImage({
+
+                data: leftLogo,
+
+                x: X(25),
+
+                y: Y(7),
+
+                w: X(80),
+
+                h: Y(80)
+
+            });
+
+
+            /* CENTER LOGO */
+
+            slide.addImage({
+
+                data: centerLogo,
+
+                x: X(
+                    (875 - 120) / 2
+                ),
+
+                y: Y(10),
+
+                w: X(120),
+
+                h: Y(80)
+
+            });
+
+
+            /* RIGHT LOGO */
+
+            slide.addImage({
+
+                data: rightLogo,
+
+                x: X(
+                    875 - 25 - 100
+                ),
+
+                y: Y(7),
+
+                w: X(100),
+
+                h: Y(80)
+
+            });
+
+
+            /* CATEGORY TITLE */
+
+            slide.addText(
+
+                cat.name ||
+                "Category",
+
+                {
+
+                    x: 0,
+
+                    y: 0,
+
+                    w: SW,
+
+                    h: SH,
+
+                    fontFace:
+                        "Poppins",
+
+                    fontSize: 60,
+
+                    bold: true,
+
+                    color:
+                        "000000",
+
+                    align:
+                        "center",
+
+                    valign:
+                        "mid",
+
+                    margin: 0,
+
+                    breakLine:
+                        false
+
+                }
+
+            );
+
+
+            /* =================================================
+               BA SLIDES
+               ================================================= */
+
+            for (
+                const imgUrl of cat.images
+            ) {
+
+
+                slide =
+                    pptx.addSlide();
+
+
+                slide.background = {
+
+                    color:
+                        "FFFFFF"
+
+                };
+
+
+                /* =================================================
+                   LOGOS
+                   ================================================= */
+
+
+                /* LEFT LOGO */
+
+                slide.addImage({
+
+                    data:
+                        leftLogo,
+
+                    x:
+                        X(20),
+
+                    y:
+                        Y(20),
+
+                    w:
+                        X(80),
+
+                    h:
+                        Y(80)
+
+                });
+
+
+                /* CENTER LOGO */
+
+                slide.addImage({
+
+                    data:
+                        centerLogo,
+
+                    x:
+                        X(
+                            (875 - 130) / 2
+                        ),
+
+                    y:
+                        Y(20),
+
+                    w:
+                        X(130),
+
+                    h:
+                        Y(80)
+
+                });
+
+
+                /* RIGHT LOGO */
+
+                slide.addImage({
+
+                    data:
+                        rightLogo,
+
+                    x:
+                        X(
+                            875 - 20 - 100
+                        ),
+
+                    y:
+                        Y(20),
+
+                    w:
+                        X(100),
+
+                    h:
+                        Y(80)
+
+                });
+
+
+                /* =================================================
+                   CONTENT
+                   ================================================= */
+
+                const contentX =
+                    20;
+
+
+                const contentW =
+                    835;
+
+
+                const gap =
+                    15;
+
+
+                const colW =
+                    (contentW - gap) / 2;
+
+
+                /* =================================================
+                   BEFORE HEADING
+                   ================================================= */
+
+                slide.addText(
+
+                    "Before",
+
+                    {
+
+                        x:
+                            X(contentX),
+
+                        y:
+                            Y(90),
+
+                        w:
+                            X(colW),
+
+                        h:
+                            Y(45),
+
+                        fontFace:
+                            "Poppins",
+
+                        fontSize:
+                            30,
+
+                        bold:
+                            true,
+
+                        color:
+                            "000000",
+
+                        align:
+                            "center",
+
+                        valign:
+                            "mid",
+
+                        margin:
+                            0
+
+                    }
+
+                );
+
+
+                /* =================================================
+                   AFTER HEADING
+                   ================================================= */
+
+                slide.addText(
+
+                    "After",
+
+                    {
+
+                        x:
+                            X(
+                                contentX +
+                                colW +
+                                gap
+                            ),
+
+                        y:
+                            Y(90),
+
+                        w:
+                            X(colW),
+
+                        h:
+                            Y(45),
+
+                        fontFace:
+                            "Poppins",
+
+                        fontSize:
+                            30,
+
+                        bold:
+                            true,
+
+                        color:
+                            "000000",
+
+                        align:
+                            "center",
+
+                        valign:
+                            "mid",
+
+                        margin:
+                            0
+
+                    }
+
+                );
+
+
+                /* =================================================
+                   IMAGE AREA
+                   ================================================= */
+
+                const imageY =
+                    145;
+
+
+                const imageH =
+                    400;
+
+
+                /* =================================================
+                   COMPRESS BEFORE IMAGE
+                   ================================================= */
+
+                const beforeImage =
+                    await compressImage(
+
+                        imgUrl,
+
+                        1600,
+
+                        0.80
+
+                    );
+
+
+                /* =================================================
+                   BEFORE IMAGE
+                   ================================================= */
+
+                slide.addImage({
+
+                    data:
+                        beforeImage,
+
+                    x:
+                        X(
+                            contentX +
+                            colW * 0.05
+                        ),
+
+                    y:
+                        Y(imageY),
+
+                    w:
+                        X(
+                            colW * 0.90
+                        ),
+
+                    h:
+                        Y(imageH)
+
+                });
+
+                 /* =================================================
+                   AFTER EMPTY BOX - LEFT & RIGHT BORDERS ONLY
+                   ================================================= */
+                
+                /* LEFT BORDER */
+                slide.addShape(
+                    pptx.ShapeType.line,
+                    {
+                        x: X(
+                            contentX +
+                            colW +
+                            gap +
+                            colW * 0.05
+                        ),
+                
+                        y: Y(imageY + 50),
+                
+                        w: 0,
+                
+                        h: Y(300),
+                
+                        line: {
+                            color: "808080",
+                            width: 1
+                        }
+                    }
+                );
+                
+                /* RIGHT BORDER */
+                slide.addShape(
+                    pptx.ShapeType.line,
+                    {
+                        x: X(
+                            contentX +
+                            colW +
+                            gap +
+                            colW * 0.95
+                        ),
+                
+                        y: Y(imageY + 50),
+                
+                        w: 0,
+                
+                        h: Y(300),
+                
+                        line: {
+                            color: "808080",
+                            width: 1
+                        }
+                    }
+                );
+
+            }
+
+        }
+
+
+        /* =================================================
+           DOWNLOAD
+           ================================================= */
+
+        await pptx.writeFile({
+
+            fileName:
+                "Before-After.pptx"
+
+        });
+
+
+    }
+
+    catch (err) {
+
+
+        console.error(err);
+
+
+        alert(
+
+            "Something went wrong while creating the PowerPoint.\n\n" +
+
+            err.message
+
+        );
+
+
+    }
+
+    finally {
+
+
+        if (btn) {
+
+            btn.disabled =
+                false;
+
+            btn.textContent =
+                original;
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   PPT BUTTON
+   ========================================================= */
+
+document
+    .getElementById("pptBtn")
+    .addEventListener(
+        "click",
+        downloadPPTX
+    );
+
+</script>
+
+</body>
+
+</html>
